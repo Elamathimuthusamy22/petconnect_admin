@@ -26,9 +26,9 @@ include 'db_connect.php';
     <p>Manage all PetConnect sections from here.</p>
 
     <div class="dashboard-grid">
-        <a href="add_pet.php" class="dash-card">🐾 Add / Manage Pets</a>
+        <a href="add_pet.php" class="dash-card">🐾 Add  Pets</a>
         <a href="manage_adoptions.php" class="dash-card">🏠 Adoption Requests</a>
-        <a href="manage_appointments.php" class="dash-card">🩺 Appointments</a>
+        <a href="manage_appoinments.php" class="dash-card">🩺 Appointments</a>
         <a href="manage_petshop.php" class="dash-card">🛍️ Pet Shop</a>
         <a href="feedback.php" class="dash-card">💬 User Feedback</a>
         <a href="manage_tips.php" class="dash-card">📘 Pet Tips</a>
