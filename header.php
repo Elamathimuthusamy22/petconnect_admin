@@ -7,7 +7,7 @@
         <a href="manage_appointments.php">Appointments</a>
         <a href="manage_petshop.php">Pet Shop</a>
         <a href="feedback.php">Feedback</a>
-        <a href="manage_tips.php">Tips</a>
+        
         <a href="manage_lostfound.php">Lost & Found</a>
         <a href="manage_users.php">Users</a>
         <a href="logout.php">Logout</a>

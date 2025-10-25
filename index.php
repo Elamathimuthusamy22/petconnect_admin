@@ -31,7 +31,7 @@ include 'db_connect.php';
         <a href="manage_appoinments.php" class="dash-card">🩺 Appointments</a>
         <a href="manage_petshop.php" class="dash-card">🛍️ Pet Shop</a>
         <a href="feedback.php" class="dash-card">💬 User Feedback</a>
-        <a href="manage_tips.php" class="dash-card">📘 Pet Tips</a>
+       
         <a href="manage_lostfound.php" class="dash-card">🔍 Lost & Found</a>
         <a href="manage_users.php" class="dash-card">👥 Manage Users</a>
     </div>
