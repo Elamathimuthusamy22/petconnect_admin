@@ -2,35 +2,30 @@
 session_start();
 require_once 'db_connect.php';
 
-$loggedIn = isset($_SESSION['admin_id']); // check if admin is logged in
 $collection = $db->lost_found;
 
 $success_message = '';
 $error_message = '';
 
-// Handle admin update
+// Handle update (no login required)
 if(isset($_POST['update_submit'])){
-    if(!$loggedIn){
-        $error_message = "You must be logged in as admin to update.";
-    } else {
-        try {
-            $id = new MongoDB\BSON\ObjectId($_POST['id']);
-            $status = $_POST['status'] ?? '';
-            $note = trim($_POST['admin_note'] ?? '');
+    try {
+        $id = new MongoDB\BSON\ObjectId($_POST['id']);
+        $status = $_POST['status'] ?? '';
+        $note = trim($_POST['admin_note'] ?? '');
 
-            if(empty($status)){
-                throw new Exception("Please select a status.");
-            }
-
-            $collection->updateOne(
-                ['_id' => $id],
-                ['$set' => ['status' => $status, 'admin_note' => $note]]
-            );
-
-            $success_message = "Update successful!";
-        } catch(Exception $e){
-            $error_message = $e->getMessage();
+        if(empty($status)){
+            throw new Exception("Please select a status.");
         }
+
+        $collection->updateOne(
+            ['_id' => $id],
+            ['$set' => ['status' => $status, 'admin_note' => $note]]
+        );
+
+        $success_message = "Update successful!";
+    } catch(Exception $e){
+        $error_message = $e->getMessage();
     }
 }
 
@@ -68,10 +63,6 @@ button:hover { background: #0056b3; }
         <div class="error-message"><?= htmlspecialchars($error_message) ?></div>
     <?php endif; ?>
 
-    <?php if(!$loggedIn): ?>
-        <div class="error-message">Please <a href="admin_login.php" style="color:white;text-decoration:underline;">login</a> as admin to manage submissions.</div>
-    <?php endif; ?>
-
     <table>
         <tr>
             <th>User</th>
@@ -86,21 +77,21 @@ button:hover { background: #0056b3; }
         <?php foreach($items as $i): ?>
         <tr>
             <td><?= htmlspecialchars($i['user_name'] ?? 'Unknown') ?></td>
-            <td><?= $i['type'] ?></td>
+            <td><?= htmlspecialchars($i['type']) ?></td>
             <td><?= htmlspecialchars($i['item_name']) ?></td>
             <td><?= htmlspecialchars($i['description']) ?></td>
-            <td><?= $i['status'] ?></td>
-            <td><?= $i['admin_note'] ?? '' ?></td>
+            <td><?= htmlspecialchars($i['status']) ?></td>
+            <td><?= htmlspecialchars($i['admin_note'] ?? '') ?></td>
             <td>
                 <form method="POST">
                     <input type="hidden" name="id" value="<?= $i['_id'] ?>">
-                    <select name="status" <?php if(!$loggedIn) echo 'disabled'; ?>>
+                    <select name="status">
                         <option value="Pending" <?= $i['status']=='Pending'?'selected':'' ?>>Pending</option>
                         <option value="Resolved" <?= $i['status']=='Resolved'?'selected':'' ?>>Resolved</option>
                         <option value="Closed" <?= $i['status']=='Closed'?'selected':'' ?>>Closed</option>
                     </select>
-                    <textarea name="admin_note" placeholder="Add note..." <?php if(!$loggedIn) echo 'disabled'; ?>><?= $i['admin_note'] ?? '' ?></textarea>
-                    <button type="submit" name="update_submit" <?php if(!$loggedIn) echo 'disabled'; ?>>Update</button>
+                    <textarea name="admin_note" placeholder="Add note..."><?= htmlspecialchars($i['admin_note'] ?? '') ?></textarea>
+                    <button type="submit" name="update_submit">Update</button>
                 </form>
             </td>
         </tr>
